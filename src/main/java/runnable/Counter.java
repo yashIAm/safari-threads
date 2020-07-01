@@ -1,12 +1,14 @@
 package runnable;
 
 public class Counter {
-  static volatile long counter = 0;
+  static /*volatile*/ long counter = 0;
 
   public static void main(String[] args) throws Throwable {
     Runnable r = () -> {
       for (int i = 0; i < 2_000_000; i++) {
-        counter++;
+        synchronized (Counter.class) {
+          counter++;
+        }
       }
     };
 
